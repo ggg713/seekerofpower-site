@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get("session_id");
+
+            if (!sessionId) {
+                // No session ID = No payment = Redirect to homepage
+                window.location.href = "/";
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://seekerofpower-backend.onrender.com/verify-payment?session_id=${sessionId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    // Payment not verified = Redirect to homepage
+                    window.location.href = "/";
+                }
+            } catch (error) {
+                console.error("Error verifying payment:", error);
+                window.location.href = "/";
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="content">
