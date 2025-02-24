@@ -27,10 +27,11 @@
     <!-- Stripe Integration -->
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var stripe = Stripe("pk_live_51QSrJIBCLvIVd7yOSDAZ6NbqzoqMIpsAa5EwfGAPavrcVQUYB91ZwZApao94T7q1ejCF5qQig61NNh3jmkNRT8OQ00FmbKNEq3");
+        var stripe = Stripe("pk_live_51QSrJIBCLvIVd7yOIIb9XN9j85S24d1YuB6aaX8bBIM07ombjjqM2vJOHRpLWxBMgUWGXNYTQGmZOtFnnmdoNDA400beQ2RQAu");
 
         document.getElementById("checkout-button").addEventListener("click", function () {
-            fetch("https://seekerofpower-backend.onrender.com:10000/create-checkout-session", {
+            fetch("https://seekerofpower-backend.onrender.com/create-checkout-session", {
+
 
                 method: "POST",
                 headers: {
