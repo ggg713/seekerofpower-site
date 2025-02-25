@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="mo5YTUyKl7f9gWrpNENwHRFykjPZuD6glczVg88kEIM" />   
-     <title>Welcome to the Crossroads</title>
+    <title>Welcome to the Crossroads</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="canonical" href="https://www.seekerofpower.com/">
     <meta name="description" content="Seeker of Power - Unlock the secrets of the Crossroads Pact. Learn the rituals, the signs, and the path to power.">
     <meta name="keywords" content="sell your soul, crossroads pact, occult knowledge, hidden wisdom, spiritual guidance, seeker of power">
     <meta name="author" content="Seeker of Power">
-
-
 </head>
 <body>
     <div class="crossroads-container">
@@ -32,30 +30,38 @@
     </footer>
 
     <!-- Stripe Integration -->
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-    var stripe = Stripe("pk_live_51QSrJIBCLvIVd7yOIIb9XN9j85S24d1YuB6aaX8bBIM07ombjjqM2vJOHRpLWxBMgUWGXNYTQGmZOtFnnmdoNDA400beQ2RQAu");
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe("pk_live_51QSrJIBCLvIVd7yOIIb9XN9j85S24d1YuB6aaX8bBIM07ombjjqM2vJOHRpLWxBMgUWGXNYTQGmZOtFnnmdoNDA400beQ2RQAu");
 
-    document.getElementById("checkout-button").addEventListener("click", function () {
-        fetch("https://seekerofpower-backend.onrender.com/create-checkout-session", { 
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        })
-        .then(response => response.json())
-        .then(session => {
-            if (session.id) {
-                return stripe.redirectToCheckout({ sessionId: session.id });
-            } else {
-                console.error("Session ID missing:", session);
-                alert("Error: No session ID returned. Check the backend.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Error occurred. Check console.");
+        document.getElementById("checkout-button").addEventListener("click", function () {
+            let button = this;
+            button.disabled = true;  // Disable button to prevent multiple clicks
+            button.textContent = "Processing..."; // Show loading state
+
+            fetch("https://seekerofpower-backend.onrender.com/create-checkout-session", { 
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.json())
+            .then(session => {
+                if (session.id) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                } else {
+                    console.error("Session ID missing:", session);
+                    alert("Error: No session ID returned. Check the backend.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error occurred. Check console.");
+            })
+            .finally(() => {
+                button.disabled = false;  // Re-enable button
+                button.textContent = "Sell Your Soul"; // Reset text
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
